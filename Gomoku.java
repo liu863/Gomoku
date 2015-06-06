@@ -16,7 +16,7 @@ public class Gomoku {
         return Gameboard;
     }
     
-    public int getplayer() {
+    public int getPlayer() {
         return player;
     }
     
@@ -53,12 +53,18 @@ public class Gomoku {
             for (int j = 0; j < 15; j++) {
                 key = Gameboard[i][j];
                 if (key != -1) {
-                    if (j < 11 && key == Gameboard[i][j + 1] && key == Gameboard[i][j + 2] && key == Gameboard[i][j + 3] && key == Gameboard[i][j + 4])
+                    if (j < 11 && key == Gameboard[i][j + 1] && key == Gameboard[i][j + 2] && key == Gameboard[i][j + 3] && key == Gameboard[i][j + 4]) {
                         return true;
-                    else if (i < 11 && key == Gameboard[i + 1][j] && key == Gameboard[i + 2][j] && key == Gameboard[i + 3][j] && key == Gameboard[i + 4][j])
+                    }
+                    else if (i < 11 && key == Gameboard[i + 1][j] && key == Gameboard[i + 2][j] && key == Gameboard[i + 3][j] && key == Gameboard[i + 4][j]) {
                         return true;
-                    else if (j < 11 && i < 11 && key == Gameboard[i + 1][j + 1] && key == Gameboard[i + 2][j + 2] && key == Gameboard[i + 3][j + 3] && key == Gameboard[i + 4][j + 4])
+                    }
+                    else if (j < 11 && i < 11 && key == Gameboard[i + 1][j + 1] && key == Gameboard[i + 2][j + 2] && key == Gameboard[i + 3][j + 3] && key == Gameboard[i + 4][j + 4]) {
                         return true;
+                    }
+                    else if (j > 3 && i < 11 && key == Gameboard[i + 1][j - 1] && key == Gameboard[i + 2][j - 2] && key == Gameboard[i + 3][j - 3] && key == Gameboard[i + 4][j - 4]) {
+                        return true;
+                    }
                 }
             }
         } 
@@ -109,14 +115,14 @@ public class Gomoku {
                     continue;
                 }
             }
-            player = g.getplayer();
+            player = g.getPlayer();
             player = (player + 1) % 2 == 1 ? 2 : 1;
             g.printGame();
             System.out.println("player " + player + " win!");
         }
         else {
             g.initGame();
-            Gai ai = new Gai(g);
+            Gai ai = new Gai(g, 1);
             System.out.println("type 1 if you want to play first\ntype 2 if you let AI to play first");
             player = s.nextInt() % 2;
             
