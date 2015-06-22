@@ -122,7 +122,9 @@ public class Gomoku {
         }
         else {
             g.initGame();
-            Gai ai = new Gai(g, 1);
+            System.out.println("Choose difficulty: 1 - easy; 2 - normal; 3 - hard");
+            int difficulty = s.nextInt();
+            Gai ai = new Gai(g, difficulty);
             System.out.println("type 1 if you want to play first\ntype 2 if you let AI to play first");
             player = s.nextInt() % 2;
             

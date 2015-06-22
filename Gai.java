@@ -28,7 +28,7 @@ public class Gai {
     }
     
     private int[] bestLocation() {
-        if (newgame) {
+        if (newgame && g.getlastMove()[0] == -1) {
             newgame = false;
             int[] key = {7, 7};
             return key;
@@ -41,6 +41,9 @@ public class Gai {
                     boardValue[i][j] = calValue1(i, j);
                 }
                 else if (level == 2) {
+                    boardValue[i][j] = calValue2(i, j);
+                }
+                else if (level == 3) {
                     ;
                 }
                 if (boardValue[i][j] > highest) {
@@ -59,77 +62,342 @@ public class Gai {
             return -1;
         }
         int player = g.getPlayer();
-        int value = 0;
-        //right
-        for (int i = 1; i < 5; i++) {
-            if ((col + i) < 15 && board[raw][col + i] == player) {
-                value += Math.pow(10, i);
+        int value = 0, dir, pos, i;
+        //dir: 0 for both side, 1 for right,up side, -1 for left,down side
+        //right-left
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && board[raw][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
             }
-            else {
-                break;
+            if (dir == 0 || dir == -1) {
+                if ((col - i) > 0 && board[raw][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
             }
         }
-        //up-right
-        for (int i = 1; i < 5; i++) {
-            if ((col + i) < 15 && (raw - i) > 0 && board[raw - i][col + i] == player) {
-                value += Math.pow(10, i);
+        //upright-downleft
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && (raw - i) > 0 && board[raw - i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
             }
-            else {
-                break;
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col - i) > 0 && board[raw + i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
             }
         }
-        //up
-        for (int i = 1; i < 5; i++) {
-            if ((raw - i) > 0 && board[raw - i][col] == player) {
-                value += Math.pow(10, i);
+        //up-down
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && board[raw - i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
             }
-            else {
-                break;
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && board[raw + i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
             }
         }
         //up-left
-        for (int i = 1; i < 5; i++) {
-            if ((raw - i) > 0 && (col - i) > 0 && board[raw - i][col - i] == player) {
-                value += Math.pow(10, i);
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && (col - i) > 0 && board[raw - i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
             }
-            else {
-                break;
-            }
-        }
-        //left
-        for (int i = 1; i < 5; i++) {
-            if ((col - i) > 0 && board[raw][col - i] == player) {
-                value += Math.pow(10, i);
-            }
-            else {
-                break;
-            }
-        }
-        //down-left
-        for (int i = 1; i < 5; i++) {
-            if ((raw + i) < 15 && (col - i) > 0 && board[raw + i][col - i] == player) {
-                value += Math.pow(10, i);
-            }
-            else {
-                break;
-            }
-        }
-        //down
-        for (int i = 1; i < 5; i++) {
-            if ((raw + i) < 15 && board[raw + i][col] == player) {
-                value += Math.pow(10, i);
-            }
-            else {
-                break;
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col + i) < 15 && board[raw + i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
             }
         }
-        //down-right
-        for (int i = 1; i < 5; i++) {
-            if ((raw + i) < 15 && (col + i) < 15 && board[raw + i][col + i] == player) {
-                value += Math.pow(10, i);
+        return value;
+    }
+    
+    private int calValue2(int raw, int col) {
+        int[][] board = g.getGameboard();
+        if (board[raw][col] != -1) {
+            return -1;
+        }
+        int player = g.getPlayer();
+        int value = 0, dir, pos, i;
+        //dir: 0 for both side, 1 for right,up side, -1 for left,down side
+        //right-left
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && board[raw][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
             }
-            else {
-                break;
+            if (dir == 0 || dir == -1) {
+                if ((col - i) > 0 && board[raw][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //upright-downleft
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && (raw - i) > 0 && board[raw - i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col - i) > 0 && board[raw + i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //up-down
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && board[raw - i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && board[raw + i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //up-left
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && (col - i) > 0 && board[raw - i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col + i) < 15 && board[raw + i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        player = (player + 1) % 2;
+        //right-left
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && board[raw][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((col - i) > 0 && board[raw][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //upright-downleft
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((col + i) < 15 && (raw - i) > 0 && board[raw - i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col - i) > 0 && board[raw + i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //up-down
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && board[raw - i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && board[raw + i][col] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
+            }
+        }
+        //up-left
+        for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
+            if (dir == 0 || dir == 1) {
+                if ((raw - i) > 0 && (col - i) > 0 && board[raw - i][col - i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == 1) {
+                    break;
+                }
+                else {
+                    dir = -1;
+                }
+            }
+            if (dir == 0 || dir == -1) {
+                if ((raw + i) < 15 && (col + i) < 15 && board[raw + i][col + i] == player) {
+                    value += Math.pow(10, pos);
+                    pos++;
+                }
+                else if (dir == -1) {
+                    break;
+                }
+                else {
+                    dir = 1;
+                }
             }
         }
         return value;
