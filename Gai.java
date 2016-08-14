@@ -1,12 +1,14 @@
+package Gomoku;
+
 import java.lang.Math;
 
 public class Gai {
-    private Gomoku g;
+    private Game g;
     private boolean newgame = true;
     private int[][] boardValue = new int[15][15];
     private int level;
     
-    public Gai(Gomoku g, int level) {
+    public Gai(Game g, int level) {
         this.g = g;
         this.level = level;
         initAi();
