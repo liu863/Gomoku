@@ -1,7 +1,5 @@
 package Gomoku;
 
-import Gomoku.Game;
-import Gomoku.Gai;
 import java.util.Scanner;
 
 public class Play {
@@ -17,8 +15,9 @@ public class Play {
                 g.printGame();
                 System.out.println("Enter the location(enter 999 to exit the game):");
                 int x = s.nextInt();
-                if (x == 999)
+                if (x == 999) {
                     System.exit(0);
+                }
                 int y = s.nextInt();
                 if (!g.runGame(x - 1, y - 1)) {
                     System.out.println("Invalid input, try it again.");
@@ -29,7 +28,7 @@ public class Play {
             System.out.println("player " + (g.getPlayer() == 0 ? 2 : 1) + " win!");
         }
         else {
-            Gai ai = new Gai(g, 1);
+            Ai ai = new Medium(g);
             System.out.println("type 1 if you want to play first\ntype 2 if you let AI to play first");
             int player = s.nextInt() % 2;
             
@@ -52,9 +51,8 @@ public class Play {
                 }
                 player = (player + 1) % 2;
             }
-            player = (player + 1) % 2;
             g.printGame();
-            if (player == 1) {
+            if (player == 0) {
                 System.out.println("You Win!!");
             }
             else {

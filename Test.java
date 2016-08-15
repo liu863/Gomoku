@@ -1,5 +1,4 @@
 import Gomoku.Game;
-import Gomoku.Gai;
 
 public class Test {
     public static void main(String[] args) {
