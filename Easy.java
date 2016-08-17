@@ -2,7 +2,7 @@ package Gomoku;
 
 public class Easy implements Ai {
     
-    Game g;
+    private Game g;
     
     public Easy(Game g) {
         this.g = g;

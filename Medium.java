@@ -2,8 +2,8 @@ package Gomoku;
 
 public class Medium implements Ai {
     
-    Game g;
-    int[][] values;
+    private Game g;
+    private int[][] values;
     
     public Medium(Game g) {
         this.g = g;
@@ -19,7 +19,7 @@ public class Medium implements Ai {
     
     private int[] bestLocation() {
         int[] key = {7, 7};
-        if (g.getlastMove()[2] == -1) {
+        if (g.getlastMove()[2] == 0) {
             return key;
         }
         int highest = 0;
@@ -38,8 +38,8 @@ public class Medium implements Ai {
     
     private int calValue(int row, int col) {
         int[][] board = g.getGameboard();
-        if (board[row][col] != -1) {
-            return -1;
+        if (board[row][col] != 0) {
+            return 0;
         }
         int player = g.getPlayer();
         int value = 0, dir, pos, i;
@@ -152,7 +152,8 @@ public class Medium implements Ai {
                 }
             }
         }
-        player = (player + 1) % 2;
+        player = player == 1 ? 2 : 1;
+        //calculate opponent's board value
         //right-left
         for (i = 1, dir = 0, pos = 1; i < 5 && pos < 5; i++) {
             if (dir == 0 || dir == 1) {

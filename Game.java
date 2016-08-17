@@ -4,20 +4,14 @@ public class Game {
     
     private int [][] gameboard; //15 rows & cols
     private int[] lastmove = new int[3]; //row; col; player
-    private int player; //0 - black; 1 - white
+    private int player; //1 - 'O'; 2 - 'X'
     private boolean complete;
     /**
      * New game without any move
      */
     public Game() {
         gameboard = new int[15][15];
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                gameboard[i][j] = -1;
-            }
-        }
-        lastmove[2] = -1;
-        player = 0;
+        player = 1;
         complete = false;
     }
     /**
@@ -27,12 +21,14 @@ public class Game {
      */
     public Game(int[][] gameboard) throws IllegalArgumentException{
         //TODO: check gameboard first
+        if (gameboard.length != 15 || gameboard[0].length != 15) {
+            throw new IllegalArgumentException();
+        }
         this.gameboard = gameboard;
-        throw new IllegalArgumentException();
     }
     
     public boolean runGame(int r, int c) {
-        if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != -1 || complete) {
+        if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
             return false;
         }
         else {
@@ -40,7 +36,7 @@ public class Game {
             lastmove[0] = r;
             lastmove[1] = c;
             lastmove[2] = player;
-            player = (player + 1) % 2;
+            player = player == 1 ? 2 : 1;
             changeStatus(r, c);
             return true;
         }
@@ -85,6 +81,11 @@ public class Game {
         return gameboard;
     }
     
+    /**
+     * Return current player
+     * @return 1 - player with O key,
+     *         2 - player with X key.
+     */
     public int getPlayer() {
         return player;
     }
@@ -99,13 +100,16 @@ public class Game {
             sb.append((i + 1) % 10);
             sb.append('|');
             for (int j = 0; j < 15; j++) {
-                if (gameboard[i][j] != -1) {
-                    sb.append(gameboard[i][j]);
-                    sb.append('|');
+                if (gameboard[i][j] == 1) {
+                    sb.append('O');
+                }
+                else if (gameboard[i][j] == 2) {
+                    sb.append('X');
                 }
                 else {
-                    sb.append(" |");
+                    sb.append(' ');
                 }
+                sb.append('|');
             }
             sb.append('\n');
         }
