@@ -6,7 +6,8 @@ public class Hard implements Ai {
     
     private Game g;
     private int[][] values, board;
-    private static int reclvl = 1;
+    //number of recersive steps
+    private static int reclvl = 2;
     
     public Hard(Game g) {
         this.g = g;
@@ -81,14 +82,125 @@ public class Hard implements Ai {
     }
     
     private int calBoard(int[][] board) {
+        int val = 0;
+        int player = g.getPlayer();
         //horizontal 15 rows
-        
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; ) {
+                if (board[i][j] == 0) {
+                    j++;
+                }
+                else {
+                    int open = 0, count = 0;
+                    if (j > 0 && board[i][j - 1] == 0) open++;
+                    if (board[i][j] == player) {
+                        while (j < 15 && board[i][j++] == player) count++;
+                        if (j < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, true);
+                    }
+                    else {
+                        int op = player == 1 ? 2 : 1;
+                        while (j < 15 && board[i][j++] == op) count++;
+                        if (j < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, false);
+                    }
+                }
+            }
+        }
         //vertical 15 cols
-        
+        for (int j = 0; j < 15; j++) {
+            for (int i = 0; i < 15; ) {
+                if (board[i][j] == 0) {
+                    i++;
+                }
+                else {
+                    int open = 0, count = 0;
+                    if (i > 0 && board[i - 1][j] == 0) open++;
+                    if (board[i][j] == player) {
+                        while (i < 15 && board[i++][j] == player) count++;
+                        if (i < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, true);
+                    }
+                    else {
+                        int op = player == 1 ? 2 : 1;
+                        while (i < 15 && board[i++][j] == op) count++;
+                        if (i < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, false);
+                    }
+                }
+            }
+        }
         //diagnal 10 + 10 + 1
-        
+        for (int k = 0; k < 21; k++) {
+            int i = 0, j = 0;
+            if (k < 10) i -= k - 10;
+            else if (k > 10) j += k - 10;
+            while (i < 15 && j < 15) {
+                if (board[i][j] == 0) {
+                    i++;
+                    j++;
+                }
+                else {
+                    int open = 0, count = 0;
+                    if (i > 0 && j > 0 && board[i - 1][j - 1] == 0) open++;
+                    if (board[i][j] == player) {
+                        while (i < 15 && j < 15 && board[i++][j++] == player) count++;
+                        if (i < 15 && j < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, true);
+                    }
+                    else {
+                        int op = player == 1 ? 2 : 1;
+                        while (i < 15 && j < 15 && board[i++][j++] == op) count++;
+                        if (i < 15 && j < 15 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, false);
+                    }
+                }
+            }
+        }
         //anti-diagnal 10 + 10 + 1
-        return 0;
+        for (int k = 0; k < 21; k++) {
+            int i = 0, j = 14;
+            if (k < 10) j -= 10 - k;
+            else if (k > 10) i += k - 10;
+            while (i < 15 && j >= 0) {
+                if (board[i][j] == 0) {
+                    i++;
+                    j--;
+                }
+                else {
+                    int open = 0, count = 0;
+                    if (i > 0 && j < 14 && board[i - 1][j + 1] == 0) open++;
+                    if (board[i][j] == player) {
+                        while (i < 15 && j >= 0 && board[i++][j--] == player) count++;
+                        if (i < 15 && j >= 0 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, true);
+                    }
+                    else {
+                        int op = player == 1 ? 2 : 1;
+                        while (i < 15 && j >= 0 && board[i++][j--] == op) count++;
+                        if (i < 15 && j >= 0 && board[i][j] == 0) open++;
+                        val += calSingleVal(count, open, false);
+                    }
+                }
+            }
+        }
+        return val;
+    }
+    
+    private int calSingleVal(int count, int open, boolean self) {
+        if (count >= 5) {
+            return self ? 200000000 : -200000000;
+        }
+        if (open == 0) {
+            return 0;
+        }
+        int val = open;
+        while (count > 1) {
+            val *= 100;
+            count--;
+        }
+        val *= self ? 1 : -1;
+        return val;
     }
     
     private void print(int[][] board) {
