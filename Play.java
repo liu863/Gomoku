@@ -19,7 +19,7 @@ public class Play {
                     System.exit(0);
                 }
                 int y = s.nextInt();
-                if (!g.runGame(x - 1, y - 1)) {
+                if (!g.setKey(x - 1, y - 1)) {
                     System.out.println("Invalid input, try it again.");
                     continue;
                 }
@@ -47,7 +47,7 @@ public class Play {
                         System.exit(0);
                     }
                     int y = s.nextInt();
-                    if (!g.runGame(x - 1, y - 1)) {
+                    if (!g.setKey(x - 1, y - 1)) {
                         System.out.println("Invalid input, try it again.");
                         continue;
                     }

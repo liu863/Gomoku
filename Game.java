@@ -27,7 +27,7 @@ public class Game {
         this.gameboard = gameboard;
     }
     
-    public boolean runGame(int r, int c) {
+    public boolean setKey(int r, int c) {
         if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
             return false;
         }
@@ -73,12 +73,16 @@ public class Game {
         }
     }
     
-    public int[] getlastMove() {
-        return lastmove;
+    public int[] getLastMove() {
+        return lastmove.clone();
     }
     
     public int[][] getGameboard() {
-        return gameboard;
+        int[][] ret = new int[15][];
+        for (int i = 0; i < 15; i++) {
+            ret[i] = gameboard[i].clone();
+        }
+        return ret;
     }
     
     /**

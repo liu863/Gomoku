@@ -8,26 +8,34 @@ public class Medium implements Ai {
     public Medium(Game g) {
         this.g = g;
         values = new int[15][15];
+        for (int i = 1; i < 8; i++) {
+            for (int j = i; j < 15 - i; j++) {
+                values[i][j] = i;
+                values[14 - i][j] = i;
+                values[j][i] = i;
+                values[j][14 - i] = i;
+            }
+        }
     }
     
     public void setKey() {
         int[] nextmove = bestLocation();
-        if (!g.runGame(nextmove[0], nextmove[1])) {
-            System.out.println("AI went for an invalid position!");
+        if (!g.setKey(nextmove[0], nextmove[1])) {
+            System.err.println(String.format("AI_MEDIUM_INVALID_LOCATION: %d %d", nextmove[0], nextmove[1]));
         }
     }
     
     private int[] bestLocation() {
         int[] key = {7, 7};
-        if (g.getlastMove()[2] == 0) {
+        if (g.getLastMove()[2] == 0) {
             return key;
         }
         int highest = 0;
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                values[i][j] = calValue(i, j);
-                if (values[i][j] > highest) {
-                    highest = values[i][j];
+                int val = values[i][j] + calValue(i, j);
+                if (val > highest) {
+                    highest = val;
                     key[0] = i;
                     key[1] = j;
                 }
