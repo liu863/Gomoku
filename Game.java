@@ -6,6 +6,7 @@ public class Game {
     private int[] lastmove = new int[3]; //row; col; player
     private int player; //1 - 'O'; 2 - 'X'
     private boolean complete;
+    
     /**
      * New game without any move
      */
@@ -14,6 +15,7 @@ public class Game {
         player = 1;
         complete = false;
     }
+    
     /**
      * Start the game with a given stage.
      * @param gameboard Customized uncompleteed game
@@ -27,6 +29,13 @@ public class Game {
         this.gameboard = gameboard;
     }
     
+    /**
+     * Set a key with current player's value on given location.
+     * @param r Row index
+     *        c Column index
+     * @return true - Move is successful,
+     *         false - Move is invalid.
+     */
     public boolean setKey(int r, int c) {
         if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
             return false;
@@ -42,8 +51,12 @@ public class Game {
         }
     }
     
+    /**
+     * Check if the player at given location won this game
+     */
     private void changeStatus(int r, int c) {
         int key = gameboard[r][c], count = 1;
+        if (key == 0) return;
         for (int i = r + 1; i < 15 && gameboard[i][c] == key && count < 5; i++, count++);
         for (int i = r - 1; i >= 0 && gameboard[i][c] == key && count < 5; i--, count++);
         if (count >= 5) {
@@ -73,10 +86,18 @@ public class Game {
         }
     }
     
+    /**
+     * Return the last move of this game
+     * @return int[0] - Row index of last move,
+     *         int[1] - Column index of last move.
+     */
     public int[] getLastMove() {
         return lastmove.clone();
     }
     
+    /**
+     * @return Game board as 15 * 15 int array.
+     */
     public int[][] getGameboard() {
         int[][] ret = new int[15][];
         for (int i = 0; i < 15; i++) {
@@ -87,13 +108,17 @@ public class Game {
     
     /**
      * Return current player
-     * @return 1 - player with O key,
-     *         2 - player with X key.
+     * @return 1 - Player with O key,
+     *         2 - Player with X key.
      */
     public int getPlayer() {
         return player;
     }
     
+    /**
+     * @return true - One player won this game,
+     *         false - No one won this game.
+     */
     public boolean complete() {
         return complete;
     }
