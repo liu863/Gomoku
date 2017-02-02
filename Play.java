@@ -54,6 +54,8 @@ public class Play {
                 }
                 else {
                     ai.setKey();
+                    int[] last = g.getLastMove();
+                    System.out.format("AI:(%d, %d)%n", last[0] + 1, last[1] + 1);
                 }
                 player = (player + 1) % 2;
             }

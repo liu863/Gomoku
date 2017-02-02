@@ -9,7 +9,7 @@ public class Hard implements Ai {
     private int[][] values, board, aiValues;
     //number of recersive steps
     private final int recursionDepth = 4;
-    private final int expendSize = 2;
+    private final int expendSize = 1;
     private final int winningValue = 10000000;
     
     public Hard(Game g) {
@@ -40,7 +40,7 @@ public class Hard implements Ai {
                     }
                     int val = keyVal(i, j, 1) + values[i][j];
                     //int val = keyVal(i, j, 1);
-                    aiValues[i][j] = val;
+                    //aiValues[i][j] = val;
                     if (val > highest) {
                         r = i;
                         c = j;
@@ -49,7 +49,7 @@ public class Hard implements Ai {
                 }
             }
             //printAi();
-            System.out.println(highest);
+            //System.out.println(highest);
         }
         if (!g.setKey(r, c)) {
             System.err.println(String.format("AI_HARD_INVALID_LOCATION: %d %d", r, c));
