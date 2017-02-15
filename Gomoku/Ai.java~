@@ -1,3 +1,4 @@
+package Gomoku;
 
 public interface Ai {
     

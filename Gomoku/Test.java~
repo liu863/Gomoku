@@ -1,3 +1,8 @@
+import Gomoku.Game;
+import Gomoku.Ai;
+import Gomoku.Easy;
+import Gomoku.Medium;
+import Gomoku.Hard;
 import java.util.*;
 
 public class Test {

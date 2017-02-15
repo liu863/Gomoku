@@ -1,3 +1,5 @@
+package Gomoku;
+
 import java.util.Scanner;
 
 public class Play {
