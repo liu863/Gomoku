@@ -1,3 +1,6 @@
+package AI;
+
+import Game.Game;
 import java.lang.*;
 import java.util.*;
 

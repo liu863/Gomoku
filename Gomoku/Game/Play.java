@@ -1,3 +1,6 @@
+package Game;
+
+import AI.*;
 import java.util.Scanner;
 
 public class Play {

@@ -1,3 +1,5 @@
+import AI.*;
+import Game.Game;
 import java.util.*;
 
 public class Test {

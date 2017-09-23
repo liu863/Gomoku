@@ -1,3 +1,7 @@
+package Server;
+
+import AI.*;
+import Game.Game;
 import java.io.*;
 import java.net.*;
 import java.util.*;

@@ -3,3 +3,7 @@
 
 # ignore all .java~ files
 *.java~
+
+# ignore idea component
+.idea
+out

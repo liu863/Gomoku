@@ -1,3 +1,6 @@
+package AI;
+
+import Game.Game;
 
 public class Easy implements Ai {
     
