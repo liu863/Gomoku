@@ -5,5 +5,5 @@
 *.java~
 
 # ignore idea component
-.idea
-out
+.idea/*
+out/*
