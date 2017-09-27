@@ -1,7 +1,7 @@
-package Server;
+package server;
 
-import AI.*;
-import Game.Game;
+import ai.*;
+import game.Game;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -62,7 +62,7 @@ class Request implements Runnable {
         
         if (type.equals("GET")) {
             System.out.println("get content");
-            if (file.length() == 1) file += "index.html";
+            if (file.length() == 1) file += "Gomoku/web/index.html";
             file = "." + file;
             System.out.println(file);
             getContent(outstream, file);
@@ -139,8 +139,8 @@ class Request implements Runnable {
     
     private void getContent(DataOutputStream outstream, String file) throws Exception {
         FileInputStream fis = null;
-        String statusLine = null;
-        String contentTypeLine = null;
+        String statusLine;
+        String contentTypeLine;
         String entityBody = null;
         try {
             fis = new FileInputStream(file);

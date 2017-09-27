@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import AI.*;
+import ai.*;
 import java.util.Scanner;
 
 public class Play {
@@ -8,7 +8,7 @@ public class Play {
         Game g = new Game();
         Scanner s = new Scanner(System.in);
         
-        System.out.println("1 -- play with another player\n2 -- play against AI");
+        System.out.println("1 -- play with another player\n2 -- play against ai");
         int mode = s.nextInt();
         
         if (mode == 1) {
@@ -36,7 +36,7 @@ public class Play {
             else if (level == 1) ai = new Medium(g);
             else ai = new Hard(g);
                 
-            System.out.println("1 -- you play first\n2 -- AI play first");
+            System.out.println("1 -- you play first\n2 -- ai play first");
             int player = s.nextInt() % 2;
             
             while (!g.complete()) {
@@ -56,7 +56,7 @@ public class Play {
                 else {
                     ai.setKey();
                     int[] last = g.getLastMove();
-                    System.out.format("AI:(%d, %d)%n", last[0] + 1, last[1] + 1);
+                    System.out.format("ai:(%d, %d)%n", last[0] + 1, last[1] + 1);
                 }
                 player = (player + 1) % 2;
             }

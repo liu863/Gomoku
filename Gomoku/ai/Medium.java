@@ -1,6 +1,6 @@
-package AI;
+package ai;
 
-import Game.Game;
+import game.Game;
 
 public class Medium implements Ai {
     

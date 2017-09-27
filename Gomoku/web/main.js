@@ -89,10 +89,10 @@ function move() {
 		return;
 	}
 	if (playerFirst) {
-		cell.innerHTML = "<img src='black_piece25x25.png'/>";
+		cell.innerHTML = "<img src='Gomoku/piece/black_piece25x25.png'/>";
 	}
 	else {
-		cell.innerHTML = "<img src='white_piece25x25.png'/>";
+		cell.innerHTML = "<img src='Gomoku/piece/white_piece25x25.png'/>";
 	}
 	document.getElementById("indicator").innerHTML = "AI's turn";
 

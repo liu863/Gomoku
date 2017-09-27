@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 public class Game {
     
@@ -32,9 +32,8 @@ public class Game {
     /**
      * Set a key with current player's value on given location.
      * @param r Row index
-     *        c Column index
-     * @return true - Move is successful,
-     *         false - Move is invalid.
+     * @param c Column index
+     * @return true - Move is successful, false - Move is invalid.
      */
     public boolean setKey(int r, int c) {
         if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
@@ -96,7 +95,7 @@ public class Game {
     }
     
     /**
-     * @return Game board as 15 * 15 int array.
+     * @return game board as 15 * 15 int array.
      */
     public int[][] getGameboard() {
         int[][] ret = new int[15][];

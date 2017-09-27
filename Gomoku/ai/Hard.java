@@ -1,14 +1,13 @@
-package AI;
+package ai;
 
-import Game.Game;
+import game.Game;
 import java.lang.*;
-import java.util.*;
 
 public class Hard implements Ai {
     
     private Game g;
     private int[][] values, board, aiValues;
-    //number of recersive steps
+    //number of forward steps
     private final int recursionDepth = 4;
     private final int expendSize = 1;
     private final int winningValue = 10000000;
@@ -39,7 +38,7 @@ public class Hard implements Ai {
                         aiValues[i][j] = 0;
                         continue;
                     }
-                    int val = keyVal(i, j, 1) + values[i][j];
+                    int val = PosVal(i, j, 1) + values[i][j];
                     //int val = keyVal(i, j, 1);
                     //aiValues[i][j] = val;
                     if (val > highest) {
@@ -56,8 +55,15 @@ public class Hard implements Ai {
             System.err.println(String.format("AI_HARD_INVALID_LOCATION: %d %d", r, c));
         }
     }
-    
-    private int keyVal(int r, int c, int round) {
+
+    /**
+     *
+     * @param r Row index of target position.
+     * @param c Column index of target position.
+     * @param round Recursion depth of forward step, start from 1.
+     * @return The value of game if set in target position.
+     */
+    private int PosVal(int r, int c, int round) {
         int player = (g.getPlayer() + round % 2) % 2 + 1, ret = 0;
         board[r][c] = player;
         ret = calBoard();
@@ -66,7 +72,7 @@ public class Hard implements Ai {
                 for (int i = 0; i < 15; i++) {
                     for (int j = 0; j < 15; j++) {
                         if (board[i][j] == 0 && valuableMove(i, j)) {
-                            int temp = keyVal(i, j, round + 1);
+                            int temp = PosVal(i, j, round + 1);
                             if (temp <= -winningValue / (round + 1)) {
                                 board[r][c] = 0;
                                 return temp;
@@ -81,7 +87,7 @@ public class Hard implements Ai {
                 for (int i = 0; i < 15; i++) {
                     for (int j = 0; j < 15; j++) {
                         if (board[i][j] == 0 && valuableMove(i, j)) {
-                            int temp = keyVal(i, j, round + 1);
+                            int temp = PosVal(i, j, round + 1);
                             if (temp >= winningValue / (round + 1)) {
                                 board[r][c] = 0;
                                 return temp;
