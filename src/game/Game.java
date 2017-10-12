@@ -1,12 +1,12 @@
 package game;
 
 public class Game {
-    
-    private int [][] gameboard; //15 rows & cols
+
+    private int[][] gameboard; //15 rows & cols
     private int[] lastmove = new int[3]; //row; col; player
     private int player; //1 - 'O'; 2 - 'X'
     private boolean complete;
-    
+
     /**
      * New game without any move
      */
@@ -15,22 +15,24 @@ public class Game {
         player = 1;
         complete = false;
     }
-    
+
     /**
      * Start the game with a given stage.
+     *
      * @param gameboard Customized uncompleteed game
-     * @exception IllegalArgumentException When gameboard violate rules
+     * @throws IllegalArgumentException When gameboard violate rules
      */
-    public Game(int[][] gameboard) throws IllegalArgumentException{
+    public Game(int[][] gameboard) throws IllegalArgumentException {
         //TODO: check gameboard first
         if (gameboard.length != 15 || gameboard[0].length != 15) {
             throw new IllegalArgumentException();
         }
         this.gameboard = gameboard;
     }
-    
+
     /**
      * Set a key with current player's value on given location.
+     *
      * @param r Row index
      * @param c Column index
      * @return true - Move is successful, false - Move is invalid.
@@ -38,8 +40,7 @@ public class Game {
     public boolean setKey(int r, int c) {
         if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
             return false;
-        }
-        else {
+        } else {
             gameboard[r][c] = player;
             lastmove[0] = r;
             lastmove[1] = c;
@@ -49,51 +50,52 @@ public class Game {
             return true;
         }
     }
-    
+
     /**
      * Check if the player at given location won this game
      */
     private void changeStatus(int r, int c) {
         int key = gameboard[r][c], count = 1;
         if (key == 0) return;
-        for (int i = r + 1; i < 15 && gameboard[i][c] == key && count < 5; i++, count++);
-        for (int i = r - 1; i >= 0 && gameboard[i][c] == key && count < 5; i--, count++);
+        for (int i = r + 1; i < 15 && gameboard[i][c] == key && count < 5; i++, count++) ;
+        for (int i = r - 1; i >= 0 && gameboard[i][c] == key && count < 5; i--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int j = c + 1; j < 15 && gameboard[r][j] == key && count < 5; j++, count++);
-        for (int j = c - 1; j >= 0 && gameboard[r][j] == key && count < 5; j--, count++);
+        for (int j = c + 1; j < 15 && gameboard[r][j] == key && count < 5; j++, count++) ;
+        for (int j = c - 1; j >= 0 && gameboard[r][j] == key && count < 5; j--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int i = r + 1, j = c + 1; i < 15 && j < 15 && gameboard[i][j] == key && count < 5; i++, j++, count++);
-        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0 && gameboard[i][j] == key && count < 5; i--, j--, count++);
+        for (int i = r + 1, j = c + 1; i < 15 && j < 15 && gameboard[i][j] == key && count < 5; i++, j++, count++) ;
+        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0 && gameboard[i][j] == key && count < 5; i--, j--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int i = r + 1, j = c - 1; i < 15 && j >= 0 && gameboard[i][j] == key && count < 5; i++, j--, count++);
-        for (int i = r - 1, j = c + 1; i >= 0 && j < 15 && gameboard[i][j] == key && count < 5; i--, j++, count++);
+        for (int i = r + 1, j = c - 1; i < 15 && j >= 0 && gameboard[i][j] == key && count < 5; i++, j--, count++) ;
+        for (int i = r - 1, j = c + 1; i >= 0 && j < 15 && gameboard[i][j] == key && count < 5; i--, j++, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
     }
-    
+
     /**
      * Return the last move of this game
+     *
      * @return int[0] - Row index of last move,
-     *         int[1] - Column index of last move.
+     * int[1] - Column index of last move.
      */
     public int[] getLastMove() {
         return lastmove.clone();
     }
-    
+
     /**
      * @return game board as 15 * 15 int array.
      */
@@ -104,24 +106,25 @@ public class Game {
         }
         return ret;
     }
-    
+
     /**
      * Return current player
+     *
      * @return 1 - Player with O key,
-     *         2 - Player with X key.
+     * 2 - Player with X key.
      */
     public int getPlayer() {
         return player;
     }
-    
+
     /**
      * @return true - One player won this game,
-     *         false - No one won this game.
+     * false - No one won this game.
      */
     public boolean complete() {
         return complete;
     }
-    
+
     public void printGame() {
         StringBuilder sb = new StringBuilder("  1 2 3 4 5 6 7 8 9 0 1 2 3 4 5\n");
         for (int i = 0; i < 15; i++) {
@@ -130,11 +133,9 @@ public class Game {
             for (int j = 0; j < 15; j++) {
                 if (gameboard[i][j] == 1) {
                     sb.append('O');
-                }
-                else if (gameboard[i][j] == 2) {
+                } else if (gameboard[i][j] == 2) {
                     sb.append('X');
-                }
-                else {
+                } else {
                     sb.append(' ');
                 }
                 sb.append('|');

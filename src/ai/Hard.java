@@ -1,17 +1,18 @@
 package ai;
 
 import game.Game;
+
 import java.lang.*;
 
 public class Hard implements Ai {
-    
+
     private Game g;
     private int[][] values, board, aiValues;
     //number of forward steps
     private final int recursionDepth = 4;
     private final int expendSize = 1;
     private final int winningValue = 10000000;
-    
+
     public Hard(Game g) {
         this.g = g;
         values = new int[15][15];
@@ -25,7 +26,7 @@ public class Hard implements Ai {
             }
         }
     }
-    
+
     public void setKey() {
         int[] lastmove = g.getLastMove();
         int r = 7, c = 7;
@@ -57,9 +58,8 @@ public class Hard implements Ai {
     }
 
     /**
-     *
-     * @param r Row index of target position.
-     * @param c Column index of target position.
+     * @param r     Row index of target position.
+     * @param c     Column index of target position.
      * @param round Recursion depth of forward step, start from 1.
      * @return The value of game if set in target position.
      */
@@ -81,9 +81,8 @@ public class Hard implements Ai {
                         }
                     }
                 }
-                
-            }
-            else {
+
+            } else {
                 for (int i = 0; i < 15; i++) {
                     for (int j = 0; j < 15; j++) {
                         if (board[i][j] == 0 && valuableMove(i, j)) {
@@ -101,7 +100,7 @@ public class Hard implements Ai {
         board[r][c] = 0;
         return ret / round;
     }
-    
+
     private int calBoard() {
         int val = 0;
         int[] sum = new int[18];
@@ -127,7 +126,7 @@ public class Hard implements Ai {
         val = sumCombinations(sum);
         return val;
     }
-    
+
     private void calLineVal(int[] sum, int startRow, int startCol, int delRow, int delCol) {
         int player = g.getPlayer(), r = startRow, c = startCol, blank = 0;
         while (insideBoard(r, c)) {
@@ -135,8 +134,7 @@ public class Hard implements Ai {
                 r += delRow;
                 c += delCol;
                 blank++;
-            }
-            else {
+            } else {
                 int space = 0, count = 0, p = board[r][c];
                 boolean open = blank > 0;
                 space += blank;
@@ -161,8 +159,7 @@ public class Hard implements Ai {
                         else index += count * 2 - (open ? 0 : 1) - 1;
                         sum[index]++;
                     }
-                }
-                else {
+                } else {
                     if (space >= 5) {
                         int index = 9;
                         if (count >= 5) index += 8;
@@ -173,7 +170,7 @@ public class Hard implements Ai {
             }
         }
     }
-    
+
     private int sumCombinations(int[] sum) {
         int val = 0;
         if (sum[8] > 0) val = winningValue;
@@ -190,7 +187,7 @@ public class Hard implements Ai {
         }
         return val;
     }
-    
+
     private boolean valuableMove(int r, int c) {
         int value = 0;
         for (int i = r - expendSize; i <= r + expendSize; i++) {
@@ -202,11 +199,11 @@ public class Hard implements Ai {
         }
         return value >= expendSize;
     }
-    
+
     private boolean insideBoard(int r, int c) {
         return r >= 0 && r < 15 && c >= 0 && c < 15;
     }
-    
+
     private void print() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 15; i++) {
@@ -218,7 +215,7 @@ public class Hard implements Ai {
         }
         System.out.print(sb.toString());
     }
-    
+
     public void printAi() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 15; i++) {

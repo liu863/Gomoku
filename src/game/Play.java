@@ -7,10 +7,10 @@ public class Play {
     public static void main(String[] args) {
         Game g = new Game();
         Scanner s = new Scanner(System.in);
-        
+
         System.out.println("1 -- play with another player\n2 -- play against ai");
         int mode = s.nextInt();
-        
+
         if (mode == 1) {
             while (!g.complete()) {
                 g.printGame();
@@ -27,18 +27,17 @@ public class Play {
             }
             g.printGame();
             System.out.println("Player " + (g.getPlayer() == 1 ? 2 : 1) + " win!");
-        }
-        else {
+        } else {
             Ai ai;
-            System.out.println("Choose difficulty:\n0 -- Easy\n1 -- Medium\n2 -- Hard");
+            System.out.println("Choose difficulty:\n0 -- ai.Easy\n1 -- ai.Medium\n2 -- ai.Hard");
             int level = s.nextInt();
             if (level == 0) ai = new Easy(g);
             else if (level == 1) ai = new Medium(g);
             else ai = new Hard(g);
-                
+
             System.out.println("1 -- you play first\n2 -- ai play first");
             int player = s.nextInt() % 2;
-            
+
             while (!g.complete()) {
                 if (player == 1) {
                     g.printGame();
@@ -52,8 +51,7 @@ public class Play {
                         System.out.println("Invalid input, try it again.");
                         continue;
                     }
-                }
-                else {
+                } else {
                     ai.setKey();
                     int[] last = g.getLastMove();
                     System.out.format("ai:(%d, %d)%n", last[0] + 1, last[1] + 1);
@@ -63,8 +61,7 @@ public class Play {
             g.printGame();
             if (player == 0) {
                 System.out.println("You Win!");
-            }
-            else {
+            } else {
                 System.out.println("You Lose!");
             }
         }
