@@ -4,5 +4,6 @@
 # ignore all .java~ files
 *.java~
 
-# ignore IDEA outputs
+# ignore IDEA files and outputs
+/.idea
 /out
