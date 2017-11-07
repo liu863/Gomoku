@@ -110,8 +110,8 @@ public class Game {
     /**
      * Return current player
      *
-     * @return 1 - Player with O key,
-     * 2 - Player with X key.
+     * @return 1 - Player with O (black) key,
+     * 2 - Player with X (white) key.
      */
     public int getPlayer() {
         return player;

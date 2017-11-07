@@ -126,7 +126,7 @@ class Request implements Runnable {
                     if (!Server.map.containsKey(game_id)) {
                         synchronized (Server.lock) {
                             g = new Game();
-                            ai = new Hard(g);
+                            ai = new Medium(g);
                             Server.map.put(game_id, new Tuple(g, ai));
                         }
                         break;
@@ -246,7 +246,7 @@ class Request implements Runnable {
         try {
             fis = new FileInputStream(file);
             statusLine = OK + CRLF;
-            // Todo: Add file size. File.length()
+            // Todo: Add file size. (File.length())
             contentTypeLine = "Content-type: " + contentType(file) + CRLF;
         } catch (FileNotFoundException e) {
             statusLine = NOT_FOUND + CRLF;
