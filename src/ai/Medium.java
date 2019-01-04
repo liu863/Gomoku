@@ -1,3 +1,11 @@
+/**
+ * This AI uses Alpha-Beta Pruning algorithm.
+ * For any given game state, tt counts the
+ * amount of adjacent same pieces, and multiplied
+ * with different multipliers. Then, sum up all
+ * values to get the evaluation of certain state.
+ */
+
 package ai;
 
 import game.Game;
@@ -25,7 +33,7 @@ public class Medium implements Ai {
         }
     }
 
-    public void setKey() {
+    public void move() {
         int[] last_move = g.getLastMove();
         int r = 7, c = 7;
         if (last_move[2] != 0) {
@@ -51,7 +59,7 @@ public class Medium implements Ai {
             //System.out.println(highest);
         }
         board[r][c] = g.getPlayer();
-        if (!g.setKey(r, c)) {
+        if (!g.move(r, c)) {
             System.err.println(String.format("AI_MEDIUM_INVALID_LOCATION: %d %d", r, c));
         }
     }
@@ -108,14 +116,14 @@ public class Medium implements Ai {
             calLineVal(sum, i, 0, 0, 1);
             calLineVal(sum, 0, i, 1, 0);
         }
-        //diagnal 10 + 10 + 1
+        //diagonal 10 + 10 + 1
         for (int k = 0; k < 21; k++) {
             int i = 0, j = 0;
             if (k < 10) i -= k - 10;
             else if (k > 10) j += k - 10;
             calLineVal(sum, i, j, 1, 1);
         }
-        //anti-diagnal 10 + 10 + 1
+        //anti-diagonal 10 + 10 + 1
         for (int k = 0; k < 21; k++) {
             int i = 0, j = 14;
             if (k < 10) j -= 10 - k;

@@ -1,50 +1,58 @@
 package game;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Game {
 
     private int[][] gameboard; //15 rows & cols
-    private int[] lastmove = new int[3]; //row; col; player
-    private int player; //1 - 'O'; 2 - 'X'
+    private int player;
     private boolean complete;
+    private List<int[]> history; //row; col; player
 
     /**
      * New game without any move
      */
     public Game() {
-        gameboard = new int[15][15];
         player = 1;
         complete = false;
+        history = new ArrayList<>();
+        gameboard = new int[15][15];
     }
 
     /**
      * Start the game with a given stage.
      *
-     * @param gameboard Customized uncompleteed game
+     * @param board Customized uncompleteed game
      * @throws IllegalArgumentException When gameboard violate rules
      */
-    public Game(int[][] gameboard) throws IllegalArgumentException {
-        //TODO: check gameboard first
-        if (gameboard.length != 15 || gameboard[0].length != 15) {
+    public Game(int[][] board) throws IllegalArgumentException {
+        this();
+        //TODO: check board first
+        if (board.length != 15 || board[0].length != 15) {
             throw new IllegalArgumentException();
         }
-        this.gameboard = gameboard;
+        for(int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                gameboard[i][j] = board[i][j];
+            }
+        }
     }
 
     /**
-     * Set a key with current player's value on given location.
+     * Set a piece with current player's value on given location.
      *
      * @param r Row index
      * @param c Column index
      * @return true - Move is successful, false - Move is invalid.
      */
-    public boolean setKey(int r, int c) {
+    public boolean move(int r, int c) {
         if (r < 0 || r > 14 || c < 0 || c > 14 || gameboard[r][c] != 0 || complete) {
             return false;
         } else {
             gameboard[r][c] = player;
-            lastmove[0] = r;
-            lastmove[1] = c;
-            lastmove[2] = player;
+//            int[] lastmove = {r, c, player};
+            history.add(0, new int[]{r, c, player});
             player = player == 1 ? 2 : 1;
             changeStatus(r, c);
             return true;
@@ -93,7 +101,9 @@ public class Game {
      * int[1] - Column index of last move.
      */
     public int[] getLastMove() {
-        return lastmove.clone();
+        if (history.isEmpty())
+            return new int[]{0, 0, 0};
+        return history.get(0).clone();
     }
 
     /**
@@ -125,6 +135,16 @@ public class Game {
         return complete;
     }
 
+    /**
+     * @return list of history moves
+     */
+    public List<int[]> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    /**
+     * 1 - 'O', 2 - 'X'
+     */
     public void printGame() {
         StringBuilder sb = new StringBuilder("  1 2 3 4 5 6 7 8 9 0 1 2 3 4 5\n");
         for (int i = 0; i < 15; i++) {

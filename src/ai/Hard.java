@@ -20,7 +20,7 @@ public class Hard implements Ai {
         ai_values = new int[15][15];
     }
 
-    public void setKey() {
+    public void move() {
         int[] last_move = g.getLastMove();
         int[] move = new int[]{7, 7};
         if (last_move[2] != 0) {
@@ -28,7 +28,7 @@ public class Hard implements Ai {
             move = getMove(1);
         }
         board[move[0]][move[1]] = g.getPlayer();
-        if (!g.setKey(move[0], move[1])) {
+        if (!g.move(move[0], move[1])) {
             System.err.println(String.format("AI_HARD_INVALID_LOCATION: %d %d", move[0], move[1]));
         }
     }

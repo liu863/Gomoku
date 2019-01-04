@@ -20,7 +20,7 @@ public class Play {
                     System.exit(0);
                 }
                 int y = s.nextInt();
-                if (!g.setKey(x - 1, y - 1)) {
+                if (!g.move(x - 1, y - 1)) {
                     System.out.println("Invalid input, try it again.");
                     continue;
                 }
@@ -47,12 +47,12 @@ public class Play {
                         System.exit(0);
                     }
                     int y = s.nextInt();
-                    if (!g.setKey(x - 1, y - 1)) {
+                    if (!g.move(x - 1, y - 1)) {
                         System.out.println("Invalid input, try it again.");
                         continue;
                     }
                 } else {
-                    ai.setKey();
+                    ai.move();
                     int[] last = g.getLastMove();
                     System.out.format("ai:(%d, %d)%n", last[0] + 1, last[1] + 1);
                 }

@@ -142,7 +142,7 @@ class Request implements Runnable {
                 else {
                     response.put("game_id", game_id);
                     if (param_map.get("first").equals("ai")) {
-                        ai.setKey();
+                        ai.move();
                         int[] last_move = g.getLastMove();
                         response.put("row", last_move[0]);
                         response.put("col", last_move[1]);
@@ -175,7 +175,7 @@ class Request implements Runnable {
                 int row = Integer.parseInt(param_map.get("row"));
                 int col = Integer.parseInt(param_map.get("col"));
                 Tuple t = Server.map.get(game_id);
-                t.g.setKey(row, col);
+                t.g.move(row, col);
                 response.put("game_id", game_id);
                 if (t.g.complete()) {
                     response.put("status", "win");
@@ -185,7 +185,7 @@ class Request implements Runnable {
                     }
                 }
                 else {
-                    t.ai.setKey();
+                    t.ai.move();
                     if (t.g.complete()) {
                         response.put("status", "lose");
                         synchronized (Server.lock) {
