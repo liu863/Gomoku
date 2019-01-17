@@ -14,6 +14,7 @@ public class Easy implements Ai {
 
     private Game g;
     private int[][] values;
+    private long total_time = 0;
 
     public Easy(Game g) {
         this.g = g;
@@ -28,11 +29,17 @@ public class Easy implements Ai {
         }
     }
 
+    public long totalTime() {
+        return total_time;
+    }
+
     public void move() {
+        long start = System.currentTimeMillis();
         int[] nextmove = bestLocation();
         if (!g.move(nextmove[0], nextmove[1])) {
             System.err.println(String.format("AI_MEDIUM_INVALID_LOCATION: %d %d", nextmove[0], nextmove[1]));
         }
+        total_time += System.currentTimeMillis() - start;
     }
 
     private int[] bestLocation() {
@@ -204,17 +211,5 @@ public class Easy implements Ai {
 
     private boolean isPlayer(int[][] board, int x, int y, int player) {
         return x < board.length && x >= 0 && y < board[0].length && y >= 0 && board[x][y] == player;
-    }
-
-    public void printAi() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                sb.append(values[i][j]);
-                sb.append(' ');
-            }
-            sb.append('\n');
-        }
-        System.out.print(sb.toString());
     }
 }

@@ -8,7 +8,7 @@ public class Play {
         Game g = new Game();
         Scanner s = new Scanner(System.in);
 
-        System.out.println("1 -- play with another player\n2 -- play against ai");
+        System.out.println("1 -- play with another player\n2 -- play against AI\n3 -- AI vs AI");
         int mode = s.nextInt();
 
         if (mode == 1) {
@@ -27,15 +27,16 @@ public class Play {
             }
             g.printGame();
             System.out.println("Player " + (g.getPlayer() == 1 ? 2 : 1) + " win!");
-        } else {
+        }
+        else if (mode == 2) {
             Ai ai;
-            System.out.println("Choose difficulty:\n0 -- ai.Easy\n1 -- ai.Medium\n2 -- ai.Hard");
+            System.out.println("Choose difficulty:\n0 -- AI.Easy\n1 -- AI.Medium\n2 -- AI.Hard");
             int level = s.nextInt();
             if (level == 0) ai = new Easy(g);
             else if (level == 1) ai = new Medium(g);
             else ai = new Hard(g);
 
-            System.out.println("1 -- you play first\n2 -- ai play first");
+            System.out.println("1 -- you play first\n2 -- AI play first");
             int player = s.nextInt() % 2;
 
             while (!g.complete()) {
@@ -63,6 +64,38 @@ public class Play {
                 System.out.println("You Win!");
             } else {
                 System.out.println("You Lose!");
+            }
+        }
+        else if (mode == 3) {
+            Ai[] ai = new Ai[2];
+            System.out.println("Choose first AI:\n0 -- Easy\n1 -- Medium\n2 -- Hard");
+            int level = s.nextInt();
+            if (level == 0) ai[0] = new Easy(g);
+            else if (level == 1) ai[0] = new Medium(g);
+            else ai[0] = new Hard(g);
+            System.out.println("Choose second AI:\n0 -- Easy\n1 -- Medium\n2 -- Hard");
+            level = s.nextInt();
+            if (level == 0) ai[1] = new Easy(g);
+            else if (level == 1) ai[1] = new Medium(g);
+            else ai[1] = new Hard(g);
+
+            for (int i = 0; i < 1; i++) {
+                int turn = 0;
+                while (!g.complete()) {
+                    ai[turn].move();
+//                int[] last = g.getLastMove();
+//                System.out.format("ai[%d]:(%d, %d)%n", turn, last[0] + 1, last[1] + 1);
+//                g.printGame();
+                    turn = (turn + 1) % 2;
+                }
+                g.printGame();
+                if (turn == 0) {
+                    System.out.println("AI 1 Win!");
+                } else {
+                    System.out.println("AI 2 Win!");
+                }
+                System.out.format("Total time for AI 1: %d\n", ai[0].totalTime());
+                System.out.format("Total time for AI 2: %d\n", ai[1].totalTime());
             }
         }
     }

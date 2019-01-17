@@ -51,7 +51,6 @@ public class Game {
             return false;
         } else {
             gameboard[r][c] = player;
-//            int[] lastmove = {r, c, player};
             history.add(0, new int[]{r, c, player});
             player = player == 1 ? 2 : 1;
             changeStatus(r, c);
@@ -63,31 +62,31 @@ public class Game {
      * Check if the player at given location won this game
      */
     private void changeStatus(int r, int c) {
-        int key = gameboard[r][c], count = 1;
-        if (key == 0) return;
-        for (int i = r + 1; i < 15 && gameboard[i][c] == key && count < 5; i++, count++) ;
-        for (int i = r - 1; i >= 0 && gameboard[i][c] == key && count < 5; i--, count++) ;
+        int piece = gameboard[r][c], count = 1;
+        if (piece == 0) return;
+        for (int i = r + 1; i < 15 && gameboard[i][c] == piece && count < 5; i++, count++) ;
+        for (int i = r - 1; i >= 0 && gameboard[i][c] == piece && count < 5; i--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int j = c + 1; j < 15 && gameboard[r][j] == key && count < 5; j++, count++) ;
-        for (int j = c - 1; j >= 0 && gameboard[r][j] == key && count < 5; j--, count++) ;
+        for (int j = c + 1; j < 15 && gameboard[r][j] == piece && count < 5; j++, count++) ;
+        for (int j = c - 1; j >= 0 && gameboard[r][j] == piece && count < 5; j--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int i = r + 1, j = c + 1; i < 15 && j < 15 && gameboard[i][j] == key && count < 5; i++, j++, count++) ;
-        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0 && gameboard[i][j] == key && count < 5; i--, j--, count++) ;
+        for (int i = r + 1, j = c + 1; i < 15 && j < 15 && gameboard[i][j] == piece && count < 5; i++, j++, count++) ;
+        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0 && gameboard[i][j] == piece && count < 5; i--, j--, count++) ;
         if (count >= 5) {
             complete = true;
             return;
         }
         count = 1;
-        for (int i = r + 1, j = c - 1; i < 15 && j >= 0 && gameboard[i][j] == key && count < 5; i++, j--, count++) ;
-        for (int i = r - 1, j = c + 1; i >= 0 && j < 15 && gameboard[i][j] == key && count < 5; i--, j++, count++) ;
+        for (int i = r + 1, j = c - 1; i < 15 && j >= 0 && gameboard[i][j] == piece && count < 5; i++, j--, count++) ;
+        for (int i = r - 1, j = c + 1; i >= 0 && j < 15 && gameboard[i][j] == piece && count < 5; i--, j++, count++) ;
         if (count >= 5) {
             complete = true;
             return;

@@ -13,16 +13,16 @@ import game.Game;
 public class Medium implements Ai {
 
     private Game g;
-    private int[][] offsets, board, ai_values;
+    private int[][] offsets, board;
     private final int EFFECTIVE_DEPTH = 4;
     private final int EXPEND_SIZE = 1;
     private final int WINNING_VALUE = 10000000;
+    private long total_time = 0;
 
     public Medium(Game g) {
         this.g = g;
         board = g.getGameboard();
         offsets = new int[15][15];
-        ai_values = new int[15][15];
         for (int i = 1; i < 8; i++) {
             for (int j = i; j < 15 - i; j++) {
                 offsets[i][j] = i;
@@ -33,7 +33,12 @@ public class Medium implements Ai {
         }
     }
 
+    public long totalTime() {
+        return total_time;
+    }
+
     public void move() {
+        long start = System.currentTimeMillis();
         int[] last_move = g.getLastMove();
         int r = 7, c = 7;
         if (last_move[2] != 0) {
@@ -42,12 +47,9 @@ public class Medium implements Ai {
             for (int i = 0; i < 15; i++) {
                 for (int j = 0; j < 15; j++) {
                     if (board[i][j] != 0 || !valuableMove(i, j)) {
-                        ai_values[i][j] = 0;
                         continue;
                     }
                     int val = posVal(i, j, 1) + offsets[i][j];
-                    //int val = keyVal(i, j, 1);
-                    //ai_values[i][j] = val;
                     if (val > highest) {
                         r = i;
                         c = j;
@@ -55,13 +57,12 @@ public class Medium implements Ai {
                     }
                 }
             }
-            //printAi();
-            //System.out.println(highest);
         }
         board[r][c] = g.getPlayer();
         if (!g.move(r, c)) {
             System.err.println(String.format("AI_MEDIUM_INVALID_LOCATION: %d %d", r, c));
         }
+        total_time += System.currentTimeMillis() - start;
     }
 
     /**
@@ -109,7 +110,6 @@ public class Medium implements Ai {
     }
 
     private int calBoard() {
-        int val = 0;
         int[] sum = new int[18];
         //horizontal 15 rows and vertical 15 cols
         for (int i = 0; i < 15; i++) {
@@ -130,7 +130,7 @@ public class Medium implements Ai {
             else if (k > 10) i += k - 10;
             calLineVal(sum, i, j, 1, -1);
         }
-        val = sumCombinations(sum);
+        int val = sumCombinations(sum);
         return val;
     }
 
@@ -141,7 +141,8 @@ public class Medium implements Ai {
                 r += delRow;
                 c += delCol;
                 blank++;
-            } else {
+            }
+            else {
                 int space = 0, count = 0, p = board[r][c];
                 boolean open = blank > 0;
                 space += blank;
@@ -209,29 +210,5 @@ public class Medium implements Ai {
 
     private boolean insideBoard(int r, int c) {
         return r >= 0 && r < 15 && c >= 0 && c < 15;
-    }
-
-    private void print() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 15; i++) {
-            sb.append('|');
-            for (int j = 0; j < 15; j++) {
-                sb.append(String.format("%2d|", board[i][j]));
-            }
-            sb.append('\n');
-        }
-        System.out.print(sb.toString());
-    }
-
-    public void printAi() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 15; i++) {
-            sb.append('|');
-            for (int j = 0; j < 15; j++) {
-                sb.append(String.format("%5d|", ai_values[i][j]));
-            }
-            sb.append('\n');
-        }
-        System.out.print(sb.toString());
     }
 }

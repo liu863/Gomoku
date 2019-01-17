@@ -50,8 +50,6 @@ public class Test {
     private void aiHard() {
         Game g = new Game();
         Ai ai = new Hard(g);
-        //check values initialization
-        ai.printAi();
     }
 
     private void calLineVal(int[] sum, int startRow, int startCol, int delRow, int delCol) {

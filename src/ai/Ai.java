@@ -2,10 +2,13 @@ package ai;
 
 public interface Ai {
     /**
-     * Set key on game board, should call game.setKey(int, int) inside.
+     * Put price on game board, should call game.move(int, int) inside.
      */
     void move();
 
-    void printAi();
+    /**
+     * Get total compute time since the start of the game
+     */
+    long totalTime();
 }
 
